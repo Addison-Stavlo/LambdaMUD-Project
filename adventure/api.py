@@ -64,4 +64,10 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    player = request.user.player
+    room = player.room()
+    data = json.loads(request.body)
+
+
+    pusher.trigger('say-channel', room.title, {'message': data['message'], 'player': player.user.username})
+    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=200)
